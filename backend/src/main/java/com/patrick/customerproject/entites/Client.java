@@ -14,40 +14,33 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_client")
-public class Client implements Serializable{
+public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String cpf;
 	private Double income;
-	
-	
-	  @Column(columnDefinition = "TIME WITHOUT TIME ZONE")
-	  private Instant birthDate;
-	 
-	
+
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant birthDate;
+
 	private Integer children;
-	
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant createdAt;
-	
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant updatedAt;
+
 	
 	public Client() {
-		
+
 	}
 
 	public Client(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
-		super();
+
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.income = income;
-		this.birthDate = birthDate; 
+		this.birthDate = birthDate;
 		this.children = children;
 	}
 
@@ -83,11 +76,13 @@ public class Client implements Serializable{
 		this.income = income;
 	}
 
-	
-	  public Instant getBirthDate() { return birthDate; }
-	  
-	  public void setBirthDate(Instant birthDate) { this.birthDate = birthDate; }
-	 
+	public Instant getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Instant birthDate) {
+		this.birthDate = birthDate;
+	}
 
 	public Integer getChildren() {
 		return children;
@@ -121,16 +116,6 @@ public class Client implements Serializable{
 			return false;
 		return true;
 	}
-	
-	@PrePersist
-	public void prePersist() {
-		createdAt = Instant.now();
-	}
-	
-	@PreUpdate
-	public void preUpdate() {
-		updatedAt = Instant.now();
-	}
-			
 
+	
 }
