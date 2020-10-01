@@ -2,6 +2,8 @@ package com.patrick.customerproject.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.patrick.customerproject.entites.Client;
 import com.patrick.customerproject.entites.dto.ClientDTO;
 import com.patrick.customerproject.repositories.ClientRepository;
+import com.patrick.customerproject.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ClientService {
@@ -42,6 +45,24 @@ public class ClientService {
 		entity = clientRepository.save(entity);
 		return new ClientDTO(entity);
 
+	}
+
+	@Transactional
+	public ClientDTO update(Long id, ClientDTO dto) {
+		try {
+		Client entity = clientRepository.getOne(id);
+		entity.setName(dto.getName());
+		entity.setCpf(dto.getCpf());
+		entity.setIncome(dto.getIncome());
+		entity.setBirthDate(dto.getBirthDate());
+		entity.setChildren(dto.getChildren());
+		entity = clientRepository.save(entity);
+		entity = clientRepository.save(entity);		
+		return new ClientDTO(entity);
+		}catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found!");
+		}
+	
 	}
 
 }
